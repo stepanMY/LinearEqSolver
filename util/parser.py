@@ -65,7 +65,7 @@ class EqParser:
     def parse_eqs(self, eqs):
         """
         Parse equations
-        return np.arrays A and b
+        return np.arrays A, b and dict variable_to_id
 
         @param eqs: string, equations to parse
         """
@@ -90,4 +90,4 @@ class EqParser:
                     b[i] = row[key]
                 else:
                     a[i][variable_to_id[key]] = row[key]
-        return a, b
+        return a, b, variable_to_id
