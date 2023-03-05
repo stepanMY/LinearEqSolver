@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 from util.parser import EqParser
 from util.solver import LinEqSolver
+from randomizer.sampler import EqSampler
 
 
 def prepare_output(n_sol, sol, mapping, digits=3):
@@ -28,7 +29,7 @@ def prepare_output(n_sol, sol, mapping, digits=3):
 
 def solve_eq():
     """
-    Solve system of linear equations and print result
+    Solve system of linear equations
     """
     input_val = eqs_fld.get('1.0', 'end-1c')
     try:
@@ -54,18 +55,36 @@ def solve_eq():
     res_fld.configure(state='disabled')
 
 
+def sample_eq():
+    """
+    Generate system of linear equations
+    """
+    result = sampler.generate_equations(n_equations, coefficients, n_variables, answers)
+    eqs_fld.delete('1.0', 'end-1c')
+    eqs_fld.insert(tk.INSERT, ',\n'.join(result))
+
+
 parser = EqParser()
 solver = LinEqSolver()
+sampler = EqSampler(15)
+n_equations = [3, 4, 5, 6]
+coefficients = [-5, -1, -0.66, -0.5, -0.25, 0.25, 0.5, 0.66, 1, 5]
+n_variables = [3, 4, 5]
+answers = [-3, -1.5, -1, 0, 1, 1.5, 3]
+
 gui = tk.Tk()
 gui.geometry('800x400')
 
-eqs_fld = ScrolledText(gui, height=10, width=30)
-eqs_fld.place(x=80, y=150)
+eqs_fld = ScrolledText(gui, height=10, width=40)
+eqs_fld.place(x=5, y=150)
 
 res_fld = ScrolledText(gui, height=10, width=30, state='disabled')
 res_fld.place(x=500, y=150)
 
-btn = tk.Button(gui, text='solve', fg='blue', height=5, width=5, command=solve_eq)
-btn.place(x=80+300, y=100)
+btn_solve = tk.Button(gui, text='solve', fg='blue', height=5, width=10, command=solve_eq)
+btn_solve.place(x=380, y=100)
+
+btn_generate = tk.Button(gui, text='generate', fg='blue', height=5, width=10, command=sample_eq)
+btn_generate.place(x=380, y=200)
 
 gui.mainloop()
