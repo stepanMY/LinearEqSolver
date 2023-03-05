@@ -1,6 +1,10 @@
 import numpy as np
 
 
+class WrongSystemError(Exception):
+    pass
+
+
 def check_existence(a, b):
     """
     Check existence of solution using Kronecker–Capelli theorem
@@ -55,8 +59,9 @@ class LinEqSolver:
             if not check_uniqueness(a):
                 return 'inf', None
         if a.shape[0] != a.shape[1]:
-            # inadequate "way" of dealing with linearly dependent system with unique solutions
+            # !!probably incorrect!!
             sol = np.linalg.pinv(a) @ b
+            # !!probably incorrect!!
             return 'only', sol
         sol = np.linalg.solve(a, b)
         return 'only', sol
