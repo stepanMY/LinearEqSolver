@@ -47,7 +47,7 @@ class LinEqSolver:
         """
         Solve system of linear equations
         return number of solutions and solutions themselves
-        number of solutions are strings in {'none','inf','only'}
+        number of solutions is string in {'none','inf','only'}
         solutions are numpy array
 
         @param a: np.array, matrix of coefficients
